@@ -15,3 +15,21 @@ function initVarenaApi(){
     $response = $guzzleHttp->getData('/data-service/dota2/analysis/player/92423451/basic_stats',[]);
     return $response;
 }
+
+/**
+ * 通用化数据返回接口
+ * @param $status
+ * @param $message
+ * @param $data
+ * @param $httpCode
+ * @return array
+ */
+function show($status,$message,$data,$httpCode=200){
+
+    $data= [
+        'status'=>$status,
+        'message'=>$message,
+        'data'=>$data
+    ];
+    return json($data,$httpCode);
+}

@@ -7,7 +7,6 @@ class Index
     public function index()
     {
         $response=initVarenaApi();
-        echo json_encode($response);
-
+        return show(1,1,$response,201);
     }
 }
