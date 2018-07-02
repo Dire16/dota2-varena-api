@@ -9,4 +9,8 @@ class Index
         $response=initVarenaApi();
         return show(1,1,$response,201);
     }
+
+    public function test(){
+        return getSteamNameAndAvatar();
+    }
 }
