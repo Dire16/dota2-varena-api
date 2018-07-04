@@ -46,21 +46,47 @@ function show($status,$message,$data,$httpCode=200){
  */
 
 function getSteamNameAndAvatar($steamId){
-    $tranSteamId=(int)$steamId+1197960265728;
-    $tranSteamId="7656".(string)$tranSteamId;
-    $steamApiKey="19BCC7F939D1C3AEF039146BC4A9D0D1";
-    $url="http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=".$steamApiKey."&steamids=".$tranSteamId."";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    $json =  curl_exec($ch);
-    curl_close($ch);
-    $arr=json_decode($json,1);
-    $returnMsg['personaname']=$arr['response']['players'][0]['personaname'];
-    $returnMsg['avatar']=$arr['response']['players'][0]['avatar'];
-    $returnMsg['avatarmedium']=$arr['response']['players'][0]['avatarmedium'];
-    $returnMsg['avatarfull']=$arr['response']['players'][0]['avatarfull'];
-    $returnMsg['realname']=$arr['response']['players'][0]['realname'];
+    $tranSteamId=Verena::getTranSteamId($steamId);
+    $json = requestByCurl(config('varena.steamApiKey'),[
+        K::k_key=>config('varena.steamApiKey'),
+        K::k_steamids=>$tranSteamId
+    ],HttpMethod::GET);
+    $arr = json_decode($json,1);
+    $returnMsg[K::k_username] = $arr[K::k_response][K::k_players][0]['personaname'];
+    $returnMsg[K::k_avatar] = $arr[K::k_response][K::k_players][0]['avatar'];
+    $returnMsg[K::k_avatar_medium] = $arr[K::k_response][K::k_players][0]['avatarmedium'];
+    $returnMsg[K::k_avatar_full] = $arr[K::k_response][K::k_players][0]['avatarfull'];
+    $returnMsg[K::k_realname] = $arr[K::k_response][K::k_players][0]['realname'];
     return $returnMsg;
+}
+
+
+
+function requestByCurl($url, $data, $method = 'POST')
+{
+    $ch = curl_init();   //1.初始化
+    //========== $url = $url.'?'.http_bulid_query($data);
+    if ($method == "GET") {//5.post方式的时候添加数据
+        $url=$url."?".http_build_query($data);
+    }
+    curl_setopt($ch, CURLOPT_URL, $url); //2.请求地址
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);//3.请求方式
+    //4.参数如下
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);//https
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');//模拟浏览器
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+
+    if ($method == "POST") {//5.post方式的时候添加数据
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    }
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $tmpInfo = curl_exec($ch);//6.执行
+
+    if (curl_errno($ch)) {//7.如果出错
+        return curl_error($ch);
+    }
+    curl_close($ch);//8.关闭
+    return $tmpInfo;
 }
