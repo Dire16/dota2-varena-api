@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
-use Varena\SDK\Request\VarenaRequest;
 //聪明来过 这么巧
+
 class Index
 {
     public function index()
@@ -11,6 +11,6 @@ class Index
     }
 
     public function test(){
-        return getSteamNameAndAvatar();
+     //   return VarenaTool::getSteamNameAndAvatar()
     }
 }

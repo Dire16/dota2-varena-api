@@ -9,7 +9,7 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use Varena\SDK\Request\VarenaRequest;
-use GuzzleHttp\Client;
+
 // 应用公共文件
 /**
  * varena通用请求方法
@@ -30,7 +30,6 @@ function initVarenaApi(){
  * @return array
  */
 function show($status,$message,$data,$httpCode=200){
-
     $data= [
         'status'=>$status,
         'message'=>$message,
@@ -39,29 +38,6 @@ function show($status,$message,$data,$httpCode=200){
     return json($data,$httpCode);
 }
 
-/**
- * 通用化头像昵称返回接口
- * @param $steamId
- * @return mixed
- */
-
-function getSteamNameAndAvatar($steamId){
-    $tranSteamId=Verena::getTranSteamId($steamId);
-    $json = requestByCurl(config('varena.steamApiKey'),[
-        K::k_key=>config('varena.steamApiKey'),
-        K::k_steamids=>$tranSteamId
-    ],HttpMethod::GET);
-    $arr = json_decode($json,1);
-    $returnMsg[K::k_username] = $arr[K::k_response][K::k_players][0]['personaname'];
-    $returnMsg[K::k_avatar] = $arr[K::k_response][K::k_players][0]['avatar'];
-    $returnMsg[K::k_avatar_medium] = $arr[K::k_response][K::k_players][0]['avatarmedium'];
-    $returnMsg[K::k_avatar_full] = $arr[K::k_response][K::k_players][0]['avatarfull'];
-    $returnMsg[K::k_realname] = $arr[K::k_response][K::k_players][0]['realname'];
-    return $returnMsg;
-}
-
-
-
 function requestByCurl($url, $data, $method = 'POST')
 {
     $ch = curl_init();   //1.初始化
@@ -69,6 +45,7 @@ function requestByCurl($url, $data, $method = 'POST')
     if ($method == "GET") {//5.post方式的时候添加数据
         $url=$url."?".http_build_query($data);
     }
+   // echo $url;exit(0);
     curl_setopt($ch, CURLOPT_URL, $url); //2.请求地址
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);//3.请求方式
     //4.参数如下

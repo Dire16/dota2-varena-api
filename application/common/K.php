@@ -5,7 +5,7 @@
  * Date: 2018/7/4
  * Time: 10:12
  */
-
+namespace app\common;
 class K
 {
     //a
