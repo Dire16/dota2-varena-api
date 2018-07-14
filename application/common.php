@@ -15,9 +15,9 @@ use Varena\SDK\Request\VarenaRequest;
  * varena通用请求方法
  * @return array
  */
-function initVarenaApi(){
+function initVarenaApi($url){
     $guzzleHttp = new VarenaRequest(config('varena.API-KEY'),config('varena.API-Secret'));
-    $response = $guzzleHttp->getData('/data-service/dota2/analysis/player/92423451/basic_stats',[]);
+    $response = $guzzleHttp->getData($url,[]);
     return $response;
 }
 
