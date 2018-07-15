@@ -35,13 +35,17 @@ class index{
     }
 
     public function getPalyerMatchMessage(){
-        $url="/data-service/dota2/public/match/4004917060/players";
+        $url="/data-service/dota2/public/match/4004994187/players";
         $response=initVarenaApi($url);
         for($i=0;$i<10;$i++){
             if($response[$i]['player_id']=="136358412"){
                 $message=$response[$i];
             }
         }
-        print_r($message);
+
+//        echo $message['hero_id'];exit;
+        $heroUrl="/data-service/dota2/public/raw/heroes";
+        $heroMessage=initVarenaApi($heroUrl);
+        echo json_encode($heroMessage);
     }
 }
