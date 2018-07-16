@@ -46,6 +46,8 @@ class index{
 //        echo $message['hero_id'];exit;
         $heroUrl="/data-service/dota2/public/raw/heroes";
         $heroMessage=initVarenaApi($heroUrl);
-        echo json_encode($heroMessage);
+        //echo json_encode($heroMessage);
+        $data=Model('Heroavatar')->showDataBase();
+        echo json_encode($data);
     }
 }
