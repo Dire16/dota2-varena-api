@@ -31,8 +31,9 @@ class VarenaTool
             K::k_steamids => $tranSteamId
         ], HttpMethod::GET);
         $arr = json_decode($json, 1);
-        if ($arr){
-            $play = current(current(current($arr)));
+        $play=current(current($arr));
+        if ($play){
+            $play = current($play);
             $returnMsg[K::k_username] = isset($play['personaname'])?$play['personaname']:0;
             $returnMsg[K::k_avatar_medium] =isset($play['avatarmedium'])?$play['avatarmedium']:0;
             $returnMsg[K::k_avatar_full] = isset($play['avatarfull'])?$play['avatarfull']:0;
