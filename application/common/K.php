@@ -12,7 +12,8 @@ class K
     const k_avatar='avatar';
     const k_avatar_medium='avatar_medium';
     const k_avatar_full='avatar_full';
-
+    //i
+    const k_id='id';
     //k
     const k_key='key';
     //p

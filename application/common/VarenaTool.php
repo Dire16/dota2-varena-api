@@ -31,13 +31,14 @@ class VarenaTool
             K::k_steamids => $tranSteamId
         ], HttpMethod::GET);
         $arr = json_decode($json, 1);
-        // print_r($arr);exit;
-        $returnMsg[K::k_username] = $arr[K::k_response][K::k_players][0]['personaname'];
-        $returnMsg[K::k_avatar] = $arr[K::k_response][K::k_players][0]['avatar'];
-        $returnMsg[K::k_avatar_medium] = $arr[K::k_response][K::k_players][0]['avatarmedium'];
-        $returnMsg[K::k_avatar_full] = $arr[K::k_response][K::k_players][0]['avatarfull'];
-        $returnMsg[K::k_realname] = $arr[K::k_response][K::k_players][0]['realname'];
-        return $returnMsg;
+        if ($arr){
+            $play = current(current(current($arr)));
+            $returnMsg[K::k_username] = isset($play['personaname'])?$play['personaname']:0;
+            $returnMsg[K::k_avatar_medium] =isset($play['avatarmedium'])?$play['avatarmedium']:0;
+            $returnMsg[K::k_avatar_full] = isset($play['avatarfull'])?$play['avatarfull']:0;
+            $returnMsg[K::k_realname] = isset($play['realname'])?$play['realname']:0;
+        }
+        return isset($returnMsg)?$returnMsg:[];
     }
 }
 

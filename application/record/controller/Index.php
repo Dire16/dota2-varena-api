@@ -6,6 +6,9 @@
  * Time: 22:53
  */
 namespace app\record\controller;
+use app\common\K;
+use app\common\VarenaTool;
+
 class index{
     public function getSteamMessage(){
         $data=input('get.');
@@ -50,4 +53,10 @@ class index{
         $data=Model('Heroavatar')->showDataBase();
         echo json_encode($data);
     }
+
+    public function getNameAvator(){
+        $id=input(K::k_id);
+
+    }
 }
+
