@@ -24,5 +24,7 @@ class K
     //s
     const k_steamids='steamids';
     //u
+    const k_image_url = 'url';
     const k_username='username';
+
 }

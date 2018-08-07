@@ -2,12 +2,13 @@
 namespace app\index\controller;
 //聪明来过 这么巧
 
+use app\common\model\Heroavatar;
+
 class Index
 {
     public function index()
     {
-        $response=initVarenaApi();
-        return show(1,1,$response,201);
+        print_r( (new Heroavatar())->showDataBase());
     }
 
     public function test(){
